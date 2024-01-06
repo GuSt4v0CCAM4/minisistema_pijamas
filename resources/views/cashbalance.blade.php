@@ -37,16 +37,19 @@
                 $saleTotal = 0;
                 $totalCash = 0;
             @endphp
-            @foreach($sale as $s)
-                @php
-                    $saleTotal += $s->price
-                @endphp
-            @endforeach
-            @foreach($cash as $c)
-                @php
-                    $totalCash += $c->amount
-                @endphp
-            @endforeach
+            @if(isset($sale))
+                @foreach($sale as $s)
+                    @php
+                        $saleTotal += $s->price
+                    @endphp
+                @endforeach
+                @foreach($cash as $c)
+                    @php
+                        $totalCash += $c->amount
+                    @endphp
+                @endforeach
+            @endif
+
 
             <h2 align="center" class="mb-5">Balance de Caja@php
                     if ($selectedDate == 1) {

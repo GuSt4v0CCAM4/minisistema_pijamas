@@ -53,11 +53,21 @@
                                 <li><a class="dropdown-item" href="#">Something else here</a></li> -->
                             </ul>
                         </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Inventario
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="{{ url('/registroinventario') }}">Ingresar Productos</a></li>
+                                <li><a class="dropdown-item" href="{{ url('/cashconsult') }}">Consultar Inventario</a></li>
+                                <!--<li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="#">Something else here</a></li> -->
+                            </ul>
+                        </li>
+
                         <li class="nav-item">
                             <a class="nav-link" href="{{ url('/cuadre') }}">Cuadre</a>
                         </li>
-
-
                     </ul>
 
 

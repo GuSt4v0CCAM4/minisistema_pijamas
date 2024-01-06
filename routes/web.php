@@ -29,3 +29,5 @@ Route::post('/registrogastos', [App\Http\Controllers\Cash\CashRecordController::
 Route::get('/cashconsult', [App\Http\Controllers\Cash\CashConsultController::class, 'index'])->name('cash.consult');
 Route::get('/spentconsult', [App\Http\Controllers\Spent\SpentConsultController::class, 'index'])->name('spent.consult');
 Route::get('/cuadre', [App\Http\Controllers\CashBalanceController::class, 'index'])->name('cash.balance');
+Route::get('/registroinventario', [App\Http\Controllers\Inventory\InventoryRegisterController::class, 'index'])->name('inventory.register');
+Route::post('/inventoryrgister',[App\Http\Controllers\Inventory\InventoryRegisterController::class, 'register'])->name('product.register');
