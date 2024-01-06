@@ -91,7 +91,7 @@
             //CODE COLOR
             $colorM = strtoupper($color);
             //$c_color = preg_replace('/[aeiouAEIOU]+/', '', $colorM);
-            $code_color = substr($colorM, 0, 2);
+            $code_color = substr($colorM, 0, 3);
             //CODE DESCRIPTION
             $descriptionM = strtoupper($description);
             $arrayPalabra = explode(" ", $descriptionM); //lo convertimos en unn array
