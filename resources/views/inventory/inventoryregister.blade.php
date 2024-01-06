@@ -88,10 +88,10 @@
             $brandM = strtoupper($brand);
             $consonantes = preg_replace('/[aeiouAEIOU]+/', '', $brandM);
             $code_brand= substr($consonantes,0,3);
-                        //CODE COLOR
+            //CODE COLOR
             $colorM = strtoupper($color);
-            $c_color = preg_replace('/[aeiouAEIOU]+/', '', $colorM);
-            $code_color = substr($c_color, 0, 2);
+            //$c_color = preg_replace('/[aeiouAEIOU]+/', '', $colorM);
+            $code_color = substr($colorM, 0, 2);
             //CODE DESCRIPTION
             $descriptionM = strtoupper($description);
             $arrayPalabra = explode(" ", $descriptionM); //lo convertimos en unn array
