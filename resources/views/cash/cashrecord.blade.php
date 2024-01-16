@@ -27,7 +27,8 @@
                             <option value="3" {{ $selectedCash == '3' ? 'selected' : '' }}>Yape</option>
                             <option value="4" {{ $selectedCash == '4' ? 'selected' : '' }}>Plin</option>
                             <option value="5" {{ $selectedCash == '5' ? 'selected' : '' }}>Visa</option>
-                            <option value="6" {{ $selectedCash == '6' ? 'selected' : '' }}>Otro</option>
+                            <option value="6" {{ $selectedCash == '6' ? 'selected' : '' }}>Gasto</option>
+                            <option value="7" {{ $selectedCash == '7' ? 'selected' : '' }}>Otro</option>
                         </select>
                         <!---<button type="submit">Mostrar registros</button> -->
                         <label for="store">Categoria:</label>
@@ -61,54 +62,20 @@
                     <button class="btn btn-primary" type="submit">Registrar Caja</button>
                 </div>
             </form>
-        </div>
-        <!-- REGISTRO DE GASTOS -->
-        <!-- REGISTRO DE GASTOS -->
-        <!-- REGISTRO DE GASTOS -->
-        <div class="container p-4 my-5 bg-white" >
-            <h2 align="center" class="mb-4">Registrar Gasto</h2>
-            <div class="col-md-4 mb-4">
-                <form method="GET" action="{{route('cash.record')}}">
-                    <div class="form-floating">
-                        <select class="form-select" name="spent" id="spent" aria-label="Floating label select example">
-                            <option selected disabled value="0">--Seleccione una opción--</option>
-                            <option value="Seguridad" {{ $selectedSpent == 'Seguridad' ? 'selected' : '' }}>Seguridad</option>
-                            <option value="Almuerzo" {{ $selectedSpent == 'Almuerzo' ? 'selected' : '' }}>Almuerzo</option>
-                            <option value="Otro" {{ $selectedSpent == 'Otro' ? 'selected' : '' }}>Otro</option>
-                        </select>
-                        <!---<button type="submit">Mostrar registros</button> -->
-                        <label for="store">Categoria:</label>
-                    </div>
-                </form>
-            </div>
-            <div class="mb-6">
-            </div>
+            <br>
+            @if(session('success'))
+                <div class="col-md-4 alert alert-success">
+                    {{ session('success') }}
+                </div>
+            @endif
 
-            <form class="row g-3 needs-validation" method="POST" action="{{route('spent.record.store')}}">
-                @csrf
-                <div class="col-md-4">
-                    <label for="validationCustomUsername" class="form-label">Monto</label>
-                    <div class="input-group has-validation">
-                        <span class="input-group-text" id="inputGroupPrepend">S/.</span>
-                        <input type="number" step="any" min="1"  pattern="^[0-9]" class="form-control" id="validationCustomUsername"
-                               name="amount" aria-describedby="inputGroupPrepend" required>
-                        <div class="invalid-feedback">
-                            Escriba el Monto
-                        </div>
-                    </div>
+            @if(session('error'))
+                <div class="col-md-4 alert alert-danger">
+                    {{ session('error') }}
                 </div>
-                <div class="col-md-8">
-                    <label for="validationCustom01" class="form-label">Observaciones (opcional):</label>
-                    <input type="text" class="form-control" id="validationCustom01" value="" name="description">
-                    <div class="valid-feedback">
-                        Elija un producto
-                    </div>
-                </div>
-                <div class="col-12">
-                    <button class="btn btn-primary" type="submit">Registrar Gasto</button>
-                </div>
-            </form>
-        </div><
+            @endif
+        </div>
+
     </div>
     <script>
         document.getElementById('store').addEventListener('change', function() {

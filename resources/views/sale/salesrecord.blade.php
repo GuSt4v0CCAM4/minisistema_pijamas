@@ -20,17 +20,18 @@
         <form class="row g-3 needs-validation" method="POST" action="{{route('sales.record.store')}}">
             @csrf
         <div class="col-md-8">
-            <label for="validationCustom01" class="form-label">Producto:</label>
-            <input type="text" class="form-control" id="validationCustom01" value="" name="product" required>
+            <label for="product" class="form-label">Producto (ID):</label>
+            <input type="text" class="form-control" id="product" value="" name="product" required>
             <div class="valid-feedback">
                 Elija un producto
             </div>
+            <div id="productList" class="list-group" style="position: absolute; z-index: 1000;"></div>
         </div>
         <div class="col-md-4">
-            <label for="validationCustomUsername" class="form-label">Precio</label>
+            <label for="sale_price" class="form-label">Precio</label>
             <div class="input-group has-validation">
                 <span class="input-group-text" id="inputGroupPrepend">S/.</span>
-                <input type="number" step="any" min="1"  pattern="^[0-9]" class="form-control" id="validationCustomUsername"
+                <input type="number" step="any" min="1"  pattern="^[0-9]" class="form-control" id="sale_price"
                        name="price" aria-describedby="inputGroupPrepend" required>
                 <div class="invalid-feedback">
                     Elija un precio
@@ -53,7 +54,7 @@
                     <option value="2"> Transferencia</option>
                     <option value="3"> Yape</option>
                     <option value="4"> Plin</option>
-                    <option value="5"> Otro</option>
+                    <option value="7"> Otro</option>
                 </select>
                 <div class="invalid-feedback">
                     Elije un medio de pago
@@ -64,11 +65,56 @@
             <button class="btn btn-primary" type="submit">Registrar Venta</button>
         </div>
     </form>
+        <br>
+        @if(session('success'))
+            <div class="col-md-4 alert alert-success">
+                {{ session('success') }}
+            </div>
+        @endif
+
+        @if(session('error'))
+            <div class="col-md-4 alert alert-danger">
+                {{ session('error') }}
+            </div>
+        @endif
     </div><!-- Live as if you were to die tomorrow. Learn as if you were to live forever. - Mahatma Gandhi -->
 </div>
     <script>
         document.getElementById('store').addEventListener('change', function() {
             this.form.submit();
         })
+        $(document).ready(function(){
+            $("#product").keyup(function(){
+                var value = $(this).val();
+                $.ajax({
+                    url: "{{route('get.products')}}",
+                    method: "GET",
+                    data: {searchTerm: value},
+                    success: function (response){
+                        var products = response;
+                        var list = "";
+                        for(var i = 0; i < products.length; i++){
+                            list += "<a href='#' class='list-group-item list-group-item-action product-item' data-id_product='" + products[i].id_product + "'>" + products[i].id_product + "</a>";
+                        }
+                        $("#productList").html(list);
+                    }
+                });
+            });
+            $(document).on('click', '.product-item', function(e){
+                e.preventDefault();
+                var id_product = $(this).data('id_product');
+                $("#product").val(id_product);
+
+                $.ajax({
+                    url: "{{route('get.product.details')}}",
+                    method: "GET",
+                    data: {id_product: id_product},
+                    success: function (response){
+                        $("#sale_price").val(response);
+                    }
+                });
+            });
+        });
+
     </script>
 @endsection

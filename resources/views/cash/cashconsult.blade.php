@@ -57,13 +57,17 @@
                             if ($payment == 1) {
                                 $payment = 'Efectivo';
                             } elseif ($payment == 2) {
-                                $payment = 'Tarjeta';
-                            } elseif ($payment == 3) {
                                 $payment = 'Transferencia';
+                            } elseif ($payment == 3) {
+                                $payment = 'Yape';
                             } elseif ($payment == 4) {
-                                $payment = 'Cheque';
+                                $payment = 'Plin';
                             } elseif ($payment == 5) {
-                                $payment = 'Credito';
+                                $payment = 'Visa';
+                            } elseif ($payment == 6) {
+                                $payment = 'Gasto';
+                            } elseif ($payment == 7) {
+                                $payment = 'Otro';
                             }
                         @endphp
                         <tr>

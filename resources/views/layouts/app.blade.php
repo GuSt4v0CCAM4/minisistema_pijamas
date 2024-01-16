@@ -15,6 +15,7 @@
 
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
     <div id="app">
@@ -48,7 +49,6 @@
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="{{ url('/cashrecord') }}">Registrar Caja</a></li>
                                 <li><a class="dropdown-item" href="{{ url('/cashconsult') }}">Consultar Caja</a></li>
-                                <li><a class="dropdown-item" href="{{ url('/spentconsult') }}">Consultar Gastos</a></li>
                                 <!--<li><hr class="dropdown-divider"></li>
                                 <li><a class="dropdown-item" href="#">Something else here</a></li> -->
                             </ul>
@@ -59,7 +59,7 @@
                             </a>
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="{{ url('/registroinventario') }}">Ingresar Productos</a></li>
-                                <li><a class="dropdown-item" href="{{ url('/cashconsult') }}">Consultar Inventario</a></li>
+                                <li><a class="dropdown-item" href="{{ url('/consultainventario') }}">Consultar Inventario</a></li>
                                 <!--<li><hr class="dropdown-divider"></li>
                                 <li><a class="dropdown-item" href="#">Something else here</a></li> -->
                             </ul>

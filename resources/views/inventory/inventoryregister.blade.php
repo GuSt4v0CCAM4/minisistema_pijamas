@@ -80,6 +80,18 @@
                     <button class="btn btn-primary" type="submit">Registrar Producto</button>
                 </div>
             </form>
+            <br>
+            @if(session('success'))
+                <div class="col-md-4 alert alert-success">
+                    {{ session('success') }}
+                </div>
+            @endif
+
+            @if(session('error'))
+                <div class="col-md-4 alert alert-danger">
+                    {{ session('error') }}
+                </div>
+            @endif
         </div>
     </div>
     <div class="container">
@@ -113,5 +125,6 @@
         document.getElementById('store').addEventListener('change', function() {
             this.form.submit();
         })
+
     </script>
 @endsection

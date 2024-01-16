@@ -4,7 +4,7 @@
         @php
             //$selectedStore = request()->cookie('selectedStore', '0');
         @endphp
-        <form method="GET" action="{{route('spent.consult')}}">
+        <form method="GET" action="{{route('inventory.consult')}}">
             <div class="row g-2">
                 <div class="col-md">
                     <div class="form-floating">
@@ -18,28 +18,20 @@
                         <label for="floatingSelectGrid">Tienda:</label>
                     </div>
                 </div>
-                <div class="col-md">
-                    <div class="form-floating">
-                        <select class="form-select" id="date" name="date" >
-                            <option selected disabled>--Seleccione un rango--</option>
-                            <option value="1" {{ $selectedDate == '1' ? 'selected' : '' }}>Hoy</option>
-                            <option value="2" {{ $selectedDate == '2' ? 'selected' : '' }}>Semana</option>
-                            <option value="3" {{ $selectedDate == '3' ? 'selected' : '' }}>Mensual</option>
-                        </select>
-                        <label for="floatingSelectGrid">Seleccione la fecha</label>
-                    </div>
-                </div>
             </div>
 
         </form>
         <div class="container p-4 my-5 bg-white" >
-            <h2 align="center" class="mb-5">Consulta los Gastos</h2>
+            <h2 align="center" class="mb-5">Inventario</h2>
             <table class="table">
                 <thead>
                 <tr>
-                    <th scope="col">Tipo:</th>
-                    <th scope="col">Fecha: </th>
-                    <th scope="col">Monto:</th>
+                    <th scope="col">Codigo:</th>
+                    <th scope="col">Descripcion: </th>
+                    <th scope="col">Marca:</th>
+                    <th scope="col">Talla:</th>
+                    <th scope="col">Color:</th>
+                    <th scope="col">Precio:</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -48,33 +40,21 @@
                 @endphp
                 @if(isset($datos))
                     @foreach($datos as $dato)
-                        @php
-                            $date = $dato->date;
-                            $datetime = new DateTime($date);
-                            $fecha = $datetime->format('l j \d\e M. \d\e\l Y');
-                            $totalPrice += $dato->amount;
-
-                        @endphp
                         <tr>
-                            <td>{{ $dato->type }}</td>
-                            <td>{{ $fecha }}</td>
-                            <td>S/. {{ $dato->amount }}</td>
-
+                            <td>{{ $dato->id_product }}</td>
+                            <td>{{ $dato->description }}</td>
+                            <td>{{ $dato->brand }}</td>
+                            <td>{{ $dato->size }}</td>
+                            <td> {{ $dato->color }}</td>
+                            <td>S/. {{ $dato->sale_price }}</td>
                         </tr>
                     @endforeach
-                    <tr>
-                        <td colspan="3"><strong>TOTAL:</strong></td>
-                        <td><strong>S/. {{ $totalPrice }}</strong></td>
-                    </tr>
                 @endif
                 </tbody>
             </table>
         </div>
     </div>
     <script>
-        document.getElementById('date').addEventListener('change', function() {
-            this.form.submit();
-        })
         document.getElementById('store').addEventListener('change', function() {
             this.form.submit();
         })

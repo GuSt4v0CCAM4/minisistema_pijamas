@@ -31,11 +31,14 @@ class SalesConsultController extends Controller
             return view('sale.salesconsult', ['selectedDate' => $selectedDate, 'selectedStore' => $selectedStore]);
         }else{
             if ($selectedDate == '1'){
-                $datos = DB::table('sale_record')->select()->where('id_store',$selectedStore)->whereDate('date', $currentDate)->get();
+                $datos = DB::table('sale_record')->join('users', 'sale_record.id_user', '=', 'users.id') // inner join con la tabla 'user'
+                ->select('sale_record.*', 'users.*')->where('id_store',$selectedStore)->whereDate('date', $currentDate)->get();
             } elseif ($selectedDate == '2'){
-                $datos = DB::table('sale_record')->select()->where('id_store',$selectedStore)->whereBetween('date', [$firstDayWeek, $lastDayWeek])->get();
+                $datos = DB::table('sale_record')->join('users', 'sale_record.id_user', '=', 'users.id') // inner join con la tabla 'user'
+                ->select('sale_record.*', 'users.*')->where('id_store',$selectedStore)->whereBetween('date', [$firstDayWeek, $lastDayWeek])->get();
             } elseif ($selectedDate == '3'){
-                $datos = DB::table('sale_record')->select()->where('id_store',$selectedStore)->whereBetween('date', [$firstDayMonth, $lastDayMont])->get();
+                $datos = DB::table('sale_record')->join('users', 'sale_record.id_user', '=', 'users.id') // inner join con la tabla 'user'
+                ->select('sale_record.*', 'users.*')->where('id_store',$selectedStore)->whereBetween('date', [$firstDayMonth, $lastDayMont])->get();
             }
             return view('sale.salesconsult', ['selectedDate' => $selectedDate, 'datos'=>$datos, 'selectedStore' => $selectedStore]);
         }

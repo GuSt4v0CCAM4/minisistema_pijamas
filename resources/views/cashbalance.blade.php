@@ -40,7 +40,7 @@
             @if(isset($sale))
                 @foreach($sale as $s)
                     @php
-                        $saleTotal += $s->price
+                        $saleTotal += ($s->price * $s->quantity)
                     @endphp
                 @endforeach
                 @foreach($cash as $c)
@@ -64,7 +64,45 @@
                 </div>
                 <div class="col-md-4 alert alert-dark" role="alert">
                     CAJA TOTAL : S/. {{ $totalCash }}
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th scope="col">Tipo</th>
+                            <th scope="col">Monto</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @if(isset($tablecash))
+
+                            @foreach($tablecash as $tc)
+                                @php
+                                    $tipo= '';
+                                    if ($tc->payment == "1"){
+                                        $tipo = 'Efectivo';
+                                    } elseif ($tc->payment == "2"){
+                                        $tipo = 'Transferencia';
+                                    } elseif ($tc->payment == "3"){
+                                        $tipo = 'Yape';
+                                    } elseif ($tc->payment == "4"){
+                                        $tipo= 'Plin';
+                                    } elseif ($tc->payment == "5"){
+                                        $tipo = 'Visa';
+                                    } elseif ($tc->payment == "6"){
+                                        $tipo = 'Gasto';
+                                    } elseif ($tc->payment == "7"){
+                                        $tipo = 'Otro';
+                                    }
+                                @endphp
+                                <tr>
+                                    <td>{{ $tipo }}</td>
+                                    <td>S/. {{ $tc->total }}</td>
+                                </tr>
+                            @endforeach
+                        @endif
+                        </tbody>
+                    </table>
                 </div>
+
             @if($totalCash == $saleTotal)
                 <h2>CUADRE DE CAJA CORRECTO!!!</h2>
                 <button class="btn btn-primary" type="button" disabled>REGISTRAR CUADRE</button>

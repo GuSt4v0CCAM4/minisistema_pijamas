@@ -28,20 +28,26 @@ class CashBalanceController extends Controller
         // ---- FUNCIONES DATE
         Cookie::queue('selectedDate', $selectedDate, 1440);
         Cookie::queue('selectedStore', $selectedStore, 1440);
+
+
+
         if ($selectedDate == '0') {
             return view('cashbalance', ['selectedDate' => $selectedDate, 'selectedStore' => $selectedStore]);
         }else {
             if ($selectedDate == '1'){
                 $sale = DB::table('sale_record')->select()->where('id_store',$selectedStore)->whereDate('date', $currentDate)->get();
                 $cash = DB::table('cash_record')->select()->where('id_store',$selectedStore)->whereDate('date', $currentDate)->get();
+                $tablecash = DB::table('cash_record')->select('payment', DB::raw('SUM(amount) as total'))->whereDate('date', $currentDate)->groupBy('payment')->get();
             } elseif ($selectedDate == '2'){
                 $sale = DB::table('sale_record')->select()->where('id_store', $selectedStore)->whereBetween('date', [$firstDayWeek, $lastDayWeek])->get();
                 $cash = DB::table('cash_record')->select()->where('id_store', $selectedStore)->whereBetween('date', [$firstDayWeek, $lastDayWeek])->get();
+                $tablecash = DB::table('cash_record')->select('payment', DB::raw('SUM(amount) as total'))->whereBetween('date', [$firstDayWeek, $lastDayWeek])->groupBy('payment')->get();
             } elseif ($selectedDate == '3'){
                 $sale = DB::table('sale_record')->select()->where('id_store', $selectedStore)->whereBetween('date', [$firstDayMonth, $lastDayMont])->get();
                 $cash = DB::table('cash_record')->select()->where('id_store', $selectedStore)->whereBetween('date', [$firstDayMonth, $lastDayMont])->get();
+                $tablecash = DB::table('cash_record')->select('payment', DB::raw('SUM(amount) as total'))->whereBetween('date', [$firstDayMonth, $lastDayMont])->groupBy('payment')->get();
             }
-            return view('cashbalance', ['selectedDate' => $selectedDate, 'sale'=>$sale, 'cash'=>$cash, 'selectedStore' => $selectedStore]);
+            return view('cashbalance', ['selectedDate' => $selectedDate, 'sale'=>$sale, 'cash'=>$cash, 'selectedStore' => $selectedStore, 'tablecash' => $tablecash]);
         }
 
     }

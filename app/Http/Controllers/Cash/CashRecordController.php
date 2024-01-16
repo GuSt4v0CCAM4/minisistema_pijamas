@@ -26,46 +26,29 @@ class CashRecordController extends Controller
     }
     public function input(Request $request)
     {
-        $selectedStore = request()->cookie('selectedStore', '0');
-        $selectedCash = request()->cookie('selectedCash', '0');
-        if (!$request->filled('description')){
-            $request->merge(['description' => '-']);
-        }
-        $validatedData = $request->validate([
-            'amount' => 'required',
-            'description' => 'required',
-        ]);
-        $date = date('Y-m-d');
+        try{
+            $selectedStore = request()->cookie('selectedStore', '0');
+            $selectedCash = request()->cookie('selectedCash', '0');
+            if (!$request->filled('description')) {
+                $request->merge(['description' => '-']);
+            }
+            $validatedData = $request->validate([
+                'amount' => 'required',
+                'description' => 'required',
+            ]);
+            $date = date('Y-m-d');
             CashRecord::create([
-               'amount' => $request->input('amount'),
-               'payment' => $selectedCash,
-               'description' => $request->input('description'),
-               'id_user' => auth()->user()->id,
-               'date' => $date,
-               'id_store' => $selectedStore,
+                'amount' => $request->input('amount'),
+                'payment' => $selectedCash,
+                'description' => $request->input('description'),
+                'id_user' => auth()->user()->id,
+                'date' => $date,
+                'id_store' => $selectedStore,
             ]);
-            return redirect()->route('cash.record');
-    }
-    public function spent(Request $request)
-    {
-        $selectedStore = request()->cookie('selectedStore', '0');
-        $selectedSpent = request()->cookie('selectedSpent', '0');
-        if (!$request->filled('description')){
-            $request->merge(['description' => '-']);
+            return redirect()->route('cash.record')->with('success', 'El formulario se envio correctamente');
+        } catch (\Exception $e){
+            return redirect()->route('cash.record')->with('error', 'Ocurrio un error en el envio del formulario');
         }
-        $validatedData = $request->validate([
-            'amount' => 'required',
-            'description' => 'required',
-        ]);
-        $date = date('Y-m-d');
-            SpentRecord::create([
-               'amount' => $request->input('amount'),
-               'type' => $selectedSpent,
-               'description' => $request->input('description'),
-               'id_user' => auth()->user()->id,
-               'date' => $date,
-               'id_store' => $selectedStore,
-            ]);
-            return redirect()->route('cash.record');
+
     }
 }

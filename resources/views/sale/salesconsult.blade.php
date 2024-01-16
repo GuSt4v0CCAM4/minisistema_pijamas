@@ -40,6 +40,7 @@
                 <th scope="col">Producto:</th>
                 <th scope="col">Cantidad:</th>
                 <th scope="col">Fecha: </th>
+                <th scope="col">Vendedor</th>
                 <th scope="col">Precio:</th>
             </tr>
             </thead>
@@ -53,18 +54,20 @@
                         $date = $dato->date;
                         $datetime = new DateTime($date);
                         $fecha = $datetime->format('l j \d\e M. \d\e\l Y');
-                        $totalPrice += $dato->price;
+                        $preciodeventa = $dato->price * $dato->quantity;
+                        $totalPrice += $preciodeventa;
                     @endphp
                     <tr>
                         <td>{{ $dato->product }}</td>
                         <td>{{ $dato->quantity }}</td>
                         <td>{{ $fecha }}</td>
-                        <td>S/. {{ $dato->price }}</td>
+                        <td>{{ $dato->name }}</td>
+                        <td>S/. {{ $preciodeventa }}</td>
 
                     </tr>
                 @endforeach
                 <tr>
-                    <td colspan="3"><strong>TOTAL:</strong></td>
+                    <td colspan="4"><strong>TOTAL:</strong></td>
                     <td><strong>S/. {{ $totalPrice }}</strong></td>
                 </tr>
             @endif
