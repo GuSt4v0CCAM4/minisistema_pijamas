@@ -44,4 +44,43 @@ class CashConsultController extends Controller
         }
 
     }
+    public function edit(Request $request)
+    {
+        $id = $request->input('id');
+        $datos = DB::table('cash_record')->select()->where('id_reg',$id)->get();
+        return view('cash.cashedit', ['datos'=>$datos]);
+    }
+    public function update(Request $request)
+    {
+        $validatedData = $request->validate([
+            'payment' => 'required',
+            'amount' => 'required',
+            'description' => 'required',
+        ]);
+        try{
+            $id = $request->input('id');
+            $amount = $request->input('amount');
+            $description = $request->input('description');
+            $payment = $request->input('payment');
+            DB::table('cash_record')->where('id_reg', $id)
+                ->update([
+                    'amount' => $amount,
+                    'description' => $description,
+                    'payment' => $payment,
+                ]);
+        }catch (\Exception $e){
+            return redirect()->route('cash.edit')->with('error', 'Ocurrio un error a la hora de editar el gasto');
+        }
+        return redirect()->route('cash.edit')->with('success', 'Se edito el gasto correctamente!!');
+    }
+    public function delete(Request $request)
+    {
+        $id = $request->input('id');
+        try{
+            DB::table('cash_record')->where('id_reg', $id)->delete();
+        }catch (\Exception $e){
+            return redirect()->route('cash.consult')->with('error', 'Ocurrio un error a la hora de eliminar el gasto');
+        }
+        return redirect()->route('cash.consult')->with('success', 'Se elimino el gasto correctamente!!');
+    }
 }

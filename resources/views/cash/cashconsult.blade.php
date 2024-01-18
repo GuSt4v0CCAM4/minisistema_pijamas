@@ -33,13 +33,16 @@
 
         </form>
         <div class="container p-4 my-5 bg-white" >
-            <h2 align="center" class="mb-5">Consulta de Caja</h2>
+            <h2 align="center" class="mb-5">Consulta de Gastos </h2>
             <table class="table">
                 <thead>
                 <tr>
                     <th scope="col">Categoria:</th>
+                    <th scope="col">Descripcion:</th>
                     <th scope="col">Fecha: </th>
                     <th scope="col">Monto:</th>
+                    <th scope="col">Editar</th>
+                    <th scope="col">Editar</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -55,25 +58,24 @@
                             $totalPrice += $dato->amount;
                             $payment = $dato->payment;
                             if ($payment == 1) {
-                                $payment = 'Efectivo';
+                                $payment = 'Gastos Operativos';
                             } elseif ($payment == 2) {
-                                $payment = 'Transferencia';
+                                $payment = 'Gastos de Personal';
                             } elseif ($payment == 3) {
-                                $payment = 'Yape';
-                            } elseif ($payment == 4) {
-                                $payment = 'Plin';
-                            } elseif ($payment == 5) {
-                                $payment = 'Visa';
-                            } elseif ($payment == 6) {
-                                $payment = 'Gasto';
-                            } elseif ($payment == 7) {
                                 $payment = 'Otro';
                             }
+                            $id = $dato->id_reg
                         @endphp
                         <tr>
                             <td>{{ $payment }}</td>
+                            <td>{{ $dato->description }}</td>
                             <td>{{ $fecha }}</td>
                             <td>S/. {{ $dato->amount }}</td>
+                            <td><a type="button" class="btn btn-primary" href="{{route('cash.edit', ['id' => $id])}}">Editar</a></td>
+                            <td><button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modal{{$id}}">
+                                    Eliminar
+                                </button>
+                            </td>
 
                         </tr>
                     @endforeach
@@ -84,6 +86,32 @@
                 @endif
                 </tbody>
             </table>
+            @if(isset($datos))
+                @foreach($datos as $item)
+                    @php
+                        $id = $item->id_reg;
+                    @endphp
+                        <!-- Modal -->
+                    <div class="modal fade" id="modal{{$id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="exampleModalLabel">Eliminar esta venta?</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    Esta seguro que quiere eliminar el registro de esta venta? No se podra recuperar.
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                    <a type="button" class="btn btn-danger" href="{{route('cash.delete', ['id' => $id])}}">Si, ELIMINAR</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            @endif
+
         </div>
     </div>
     <script>

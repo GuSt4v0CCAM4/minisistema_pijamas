@@ -16,19 +16,15 @@
             </div>
         </form>
         <div class="container p-4 my-5 bg-white" >
-            <h2 align="center" class="mb-4">Registrar Caja</h2>
+            <h2 align="center" class="mb-4">Registrar de Gastos</h2>
             <div class="col-md-4 mb-4">
                 <form method="GET" action="{{route('cash.record')}}">
                     <div class="form-floating">
                         <select class="form-select" name="cash" id="cash" aria-label="Floating label select example">
                             <option selected disabled value="0">--Seleccione una opción--</option>
-                            <option value="1" {{ $selectedCash == '1' ? 'selected' : '' }}>Efectivo</option>
-                            <option value="2" {{ $selectedCash == '2' ? 'selected' : '' }}>Transferencias</option>
-                            <option value="3" {{ $selectedCash == '3' ? 'selected' : '' }}>Yape</option>
-                            <option value="4" {{ $selectedCash == '4' ? 'selected' : '' }}>Plin</option>
-                            <option value="5" {{ $selectedCash == '5' ? 'selected' : '' }}>Visa</option>
-                            <option value="6" {{ $selectedCash == '6' ? 'selected' : '' }}>Gasto</option>
-                            <option value="7" {{ $selectedCash == '7' ? 'selected' : '' }}>Otro</option>
+                            <option value="1" {{ $selectedCash == '1' ? 'selected' : '' }}>Gastos Operativos</option>
+                            <option value="2" {{ $selectedCash == '2' ? 'selected' : '' }}>Gastos de Personal</option>
+                            <option value="3" {{ $selectedCash == '3' ? 'selected' : '' }}>Otro</option>
                         </select>
                         <!---<button type="submit">Mostrar registros</button> -->
                         <label for="store">Categoria:</label>
@@ -52,14 +48,14 @@
                     </div>
                 </div>
                 <div class="col-md-8">
-                    <label for="validationCustom01" class="form-label">Observaciones (opcional):</label>
+                    <label for="validationCustom01" class="form-label">Descripción (opcional):</label>
                     <input type="text" class="form-control" id="validationCustom01" value="" name="description">
                     <div class="valid-feedback">
                         Elija un producto
                     </div>
                 </div>
                 <div class="col-12">
-                    <button class="btn btn-primary" type="submit">Registrar Caja</button>
+                    <button class="btn btn-primary" type="submit">Registrar Gasto</button>
                 </div>
             </form>
             <br>

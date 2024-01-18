@@ -48,5 +48,44 @@ class SalesConsultController extends Controller
 
         //return $firstDayWeek.' '.$lastDayWeek;
     }
+    public function edit(Request $request){
+        $id = $request->input('id');
+        $datos = DB::table('sale_record')->select()->where('id_reg',$id)->get();
+        return view('sale.editsale', ['datos'=>$datos]);
+    }
+    public function update(Request $request){
+        $validatedData = $request->validate([
+            'product' => 'required',
+            'price' => 'required',
+            'quantity' => 'required',
+            'payment' => 'required',
+        ]);
+        try{
+            $id = $request->input('id');
+            $product = $request->input('product');
+            $price = $request->input('price');
+            $quantity = $request->input('quantity');
+            $payment = $request->input('payment');
+            DB::table('sale_record')->where('id_reg', $id)
+                ->update([
+                    'product' => $product,
+                    'price' => $price,
+                    'quantity' => $quantity,
+                    'payment' => $payment
+                ]);
+        }catch (\Exception $e){
+            return redirect()->route('sales.edit')->with('error', 'Ocurrio un error a la hora de editar la venta');
+        }
+        return redirect()->route('sales.edit')->with('success', 'Se edito la venta correctamente!!');
+    }
+    public function delete(Request $request){
+        $id = $request->input('id');
+        try{
+            DB::table('sale_record')->where('id_reg', $id)->delete();
+        }catch (\Exception $e){
+            return redirect()->route('sales.consult')->with('error', 'Ocurrio un error a la hora de eliminar la venta');
+        }
+        return redirect()->route('sales.consult')->with('success', 'Se elimino la venta correctamente!!');
+    }
     //
 }

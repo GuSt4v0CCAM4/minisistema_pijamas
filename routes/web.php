@@ -32,3 +32,19 @@ Route::post('/inventoryregister',[App\Http\Controllers\Inventory\InventoryRegist
 Route::get('/get_products', [App\Http\Controllers\Sales\SalesRecordController::class, 'get_products'])->name('get.products');
 Route::get('/get_products_details', [App\Http\Controllers\Sales\SalesRecordController::class, 'get_products_details'])->name('get.product.details');
 Route::get('/consultainventario', [App\Http\Controllers\Inventory\InventoryConsultController::class, 'index'])->name('inventory.consult');
+
+//Editar y elimina reg
+Route::get('/editsale', [App\Http\Controllers\Sales\SalesConsultController::class, 'edit'])->name('sales.edit');
+Route::post('/updatesale', [App\Http\Controllers\Sales\SalesConsultController::class, 'update'])->name('sales.update');
+Route::get('/deletesale', [App\Http\Controllers\Sales\SalesConsultController::class, 'delete'])->name('sales.delete');
+
+Route::get('/editcash', [App\Http\Controllers\Cash\CashConsultController::class, 'edit'])->name('cash.edit');
+Route::post('/updatecash', [App\Http\Controllers\Cash\CashConsultController::class, 'update'])->name('cash.update');
+Route::get('/deletecash', [App\Http\Controllers\Cash\CashConsultController::class, 'delete'])->name('cash.delete');
+
+//BOX
+Route::get('/boxregister', [App\Http\Controllers\Box\BoxRegisterController::class, 'index'])->name('box.register');
+Route::post('/boxsale', [App\Http\Controllers\Box\BoxRegisterController::class, 'input_sale'])->name('box.register.sale');
+Route::post('/boxcash', [App\Http\Controllers\Box\BoxRegisterController::class, 'input_cash'])->name('box.register.cash');
+Route::get('/cashclose', [App\Http\Controllers\Box\BoxRegisterController::class, 'registerclose'])->name('cash.close');
+Route::get('/closeboxregister', [App\Http\Controllers\CashBalanceController::class, 'register'])->name('closeboxregister');

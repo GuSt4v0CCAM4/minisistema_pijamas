@@ -42,6 +42,8 @@
                 <th scope="col">Fecha: </th>
                 <th scope="col">Vendedor</th>
                 <th scope="col">Precio:</th>
+                <th scope="col">Editar:</th>
+                <th scope="col">Eliminar:</th>
             </tr>
             </thead>
             <tbody>
@@ -56,6 +58,7 @@
                         $fecha = $datetime->format('l j \d\e M. \d\e\l Y');
                         $preciodeventa = $dato->price * $dato->quantity;
                         $totalPrice += $preciodeventa;
+                        $id = $dato->id_reg;
                     @endphp
                     <tr>
                         <td>{{ $dato->product }}</td>
@@ -63,6 +66,13 @@
                         <td>{{ $fecha }}</td>
                         <td>{{ $dato->name }}</td>
                         <td>S/. {{ $preciodeventa }}</td>
+                        <td><a type="button" class="btn btn-primary" href="{{route('sales.edit', ['id' => $id])}}">Editar</a></td>
+                        <td><button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modal{{$id}}">
+                                Eliminar
+                            </button>
+                        </td>
+
+
 
                     </tr>
                 @endforeach
@@ -73,6 +83,33 @@
             @endif
             </tbody>
         </table>
+            @if(isset($datos))
+                @foreach($datos as $item)
+                    @php
+                        $id = $item->id_reg;
+                    @endphp
+                        <!-- Modal -->
+                    <div class="modal fade" id="modal{{$id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="exampleModalLabel">Eliminar esta venta?</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    Esta seguro que quiere eliminar el registro de esta venta? No se podra recuperar.
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                    <a type="button" class="btn btn-danger" href="{{route('sales.delete', ['id' => $id])}}">Si, ELIMINAR</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            @endif
+
+
         </div>
     </div>
     <script>

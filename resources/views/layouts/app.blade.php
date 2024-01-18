@@ -36,7 +36,7 @@
                                 Ventas
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="{{ url('/registroventa') }}">Registrar Ventas</a></li>
+                                <li><a class="dropdown-item" href="{{ url('/registroventa') }}">Registrar Venta</a></li>
                                 <li><a class="dropdown-item" href="{{ url('/consultaventa') }}">Consultar Ventas</a></li>
                                 <!--<li><hr class="dropdown-divider"></li>
                                 <li><a class="dropdown-item" href="#">Something else here</a></li> -->
@@ -44,11 +44,11 @@
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Caja
+                                Gastos
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="{{ url('/cashrecord') }}">Registrar Caja</a></li>
-                                <li><a class="dropdown-item" href="{{ url('/cashconsult') }}">Consultar Caja</a></li>
+                                <li><a class="dropdown-item" href="{{ url('/cashrecord') }}">Registrar Gasto</a></li>
+                                <li><a class="dropdown-item" href="{{ url('/cashconsult') }}">Consultar Gastos</a></li>
                                 <!--<li><hr class="dropdown-divider"></li>
                                 <li><a class="dropdown-item" href="#">Something else here</a></li> -->
                             </ul>
@@ -65,8 +65,16 @@
                             </ul>
                         </li>
 
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ url('/cuadre') }}">Cuadre</a>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Caja
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="{{ url('/cuadre') }}">Cuadre</a></li>
+                                <li><a class="dropdown-item" href="{{ url('/boxregister') }}">Registrar Cierre Anteriores</a></li>
+                                <!--<li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="#">Something else here</a></li> -->
+                            </ul>
                         </li>
                     </ul>
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BoxRecord;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\DB;
@@ -37,18 +38,36 @@ class CashBalanceController extends Controller
             if ($selectedDate == '1'){
                 $sale = DB::table('sale_record')->select()->where('id_store',$selectedStore)->whereDate('date', $currentDate)->get();
                 $cash = DB::table('cash_record')->select()->where('id_store',$selectedStore)->whereDate('date', $currentDate)->get();
-                $tablecash = DB::table('cash_record')->select('payment', DB::raw('SUM(amount) as total'))->whereDate('date', $currentDate)->groupBy('payment')->get();
+                $tablecash = DB::table('cash_close_register')->select()->whereDate('date', $currentDate)->get();
             } elseif ($selectedDate == '2'){
                 $sale = DB::table('sale_record')->select()->where('id_store', $selectedStore)->whereBetween('date', [$firstDayWeek, $lastDayWeek])->get();
                 $cash = DB::table('cash_record')->select()->where('id_store', $selectedStore)->whereBetween('date', [$firstDayWeek, $lastDayWeek])->get();
-                $tablecash = DB::table('cash_record')->select('payment', DB::raw('SUM(amount) as total'))->whereBetween('date', [$firstDayWeek, $lastDayWeek])->groupBy('payment')->get();
+                $tablecash = DB::table('cash_close_register')->select()->whereBetween('date', [$firstDayWeek, $lastDayWeek])->get();
             } elseif ($selectedDate == '3'){
                 $sale = DB::table('sale_record')->select()->where('id_store', $selectedStore)->whereBetween('date', [$firstDayMonth, $lastDayMont])->get();
                 $cash = DB::table('cash_record')->select()->where('id_store', $selectedStore)->whereBetween('date', [$firstDayMonth, $lastDayMont])->get();
-                $tablecash = DB::table('cash_record')->select('payment', DB::raw('SUM(amount) as total'))->whereBetween('date', [$firstDayMonth, $lastDayMont])->groupBy('payment')->get();
+                $tablecash = DB::table('cash_close_register')->select()->whereBetween('date', [$firstDayMonth, $lastDayMont])->get();
             }
             return view('cashbalance', ['selectedDate' => $selectedDate, 'sale'=>$sale, 'cash'=>$cash, 'selectedStore' => $selectedStore, 'tablecash' => $tablecash]);
         }
 
+    }
+    public function register(Request $request)
+    {
+        try {
+            $date = date('Y-m-d');
+            $selectedStore = request()->cookie('selectedStore', '0');
+            BoxRecord::create([
+                'sale' => $request->input('saleTotal'),
+                'spent' => $request->input('cashTotal'),
+                'profit' => $request->input('profit'),
+                'date' => $date,
+                'id_user' => auth()->user()->id,
+                'id_store' => $selectedStore,
+            ]);
+            return redirect()->route('cash.balance')->with('success', 'Se registro el cierre correctamente!!');
+        } catch (\Exception $e){
+            return redirect()->route('cash.balance')->with('error', 'Ocurrio un error a la hora de registrar el cierre');
+        }
     }
 }

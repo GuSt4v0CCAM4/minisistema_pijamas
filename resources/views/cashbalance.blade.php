@@ -33,6 +33,7 @@
 
         </form>
         <div class="container p-4 my-5 bg-white" >
+
             @php
                 $saleTotal = 0;
                 $totalCash = 0;
@@ -59,58 +60,94 @@
                     } elseif ($selectedDate == 3) {
                         echo " Mensual";
                     } @endphp </h2>
-                <div class="col-md-4 alert alert-dark" role="alert">
-                    VENTA TOTAL: S/. {{ $saleTotal }}
-                </div>
-                <div class="col-md-4 alert alert-dark" role="alert">
-                    CAJA TOTAL : S/. {{ $totalCash }}
-                    <table class="table">
-                        <thead>
-                        <tr>
-                            <th scope="col">Tipo</th>
-                            <th scope="col">Monto</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        @if(isset($tablecash))
+            <div class="container text-center">
+                <div class="row align-items-start">
+                    <div class="col alert alert-secondary" role="alert">
+                        Venta total:
+                        <div class="col ">
+                             S/. {{ $saleTotal }}
+                        </div>
+                    </div>
 
-                            @foreach($tablecash as $tc)
-                                @php
-                                    $tipo= '';
-                                    if ($tc->payment == "1"){
-                                        $tipo = 'Efectivo';
-                                    } elseif ($tc->payment == "2"){
-                                        $tipo = 'Transferencia';
-                                    } elseif ($tc->payment == "3"){
-                                        $tipo = 'Yape';
-                                    } elseif ($tc->payment == "4"){
-                                        $tipo= 'Plin';
-                                    } elseif ($tc->payment == "5"){
-                                        $tipo = 'Visa';
-                                    } elseif ($tc->payment == "6"){
-                                        $tipo = 'Gasto';
-                                    } elseif ($tc->payment == "7"){
-                                        $tipo = 'Otro';
-                                    }
-                                @endphp
-                                <tr>
-                                    <td>{{ $tipo }}</td>
-                                    <td>S/. {{ $tc->total }}</td>
-                                </tr>
-                            @endforeach
-                        @endif
-                        </tbody>
-                    </table>
+                    <div class="col alert alert-secondary" role="alert">
+                        Gasto Total:
+                        <div class="col ">
+                            S/. {{ $totalCash }}
+                        </div>
+                    </div>
+                    <div class="col alert alert-primary" role="alert">
+                        Ganancia Total:
+                        <div class="col ">
+                            @php
+                                $ganancia = $saleTotal - $totalCash
+                            @endphp
+                            S/. {{ $ganancia }}
+                        </div>
+                    </div>
                 </div>
+            </div>
 
-            @if($totalCash == $saleTotal)
-                <h2>CUADRE DE CAJA CORRECTO!!!</h2>
-                <button class="btn btn-primary" type="button" disabled>REGISTRAR CUADRE</button>
-            @endif
-            @if($totalCash != $saleTotal)
-                <h2>CUADRE DE CAJA INCORRECTO!!!</h2>
-            @endif
+
+                <button class="btn btn-primary" type="button" onclick="window.location.href='{{route('closeboxregister', ['saleTotal' => $saleTotal, 'cashTotal' => $totalCash, 'profit' => $ganancia])}}'">REGISTRAR CUADRE</button>
         </div>
+        @if(session('success'))
+            <div class="col-md-4 alert alert-success">
+                {{ session('success') }}
+            </div>
+        @endif
+
+        @if(session('error'))
+            <div class="col-md-4 alert alert-danger">
+                {{ session('error') }}
+            </div>
+        @endif
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">Tienda:</th>
+                    <th scope="col">Ventas:</th>
+                    <th scope="col">Gastos: </th>
+                    <th scope="col">Ganancia:</th>
+                </tr>
+                </thead>
+                <tbody>
+                @php
+                    $totalganancia = 0;
+                @endphp
+                @if(isset($tablecash))
+                    @foreach($tablecash as $item)
+                        @php
+                            $date = $item->date;
+                            $datetime2 = new DateTime($date);
+                            $fecha2 = $datetime2->format('l j \d\e M. \d\e\l Y');
+                            $totalganancia += $item->profit;
+                            $tienda = $item->id_store;
+                            if ($tienda== 1) {
+                                $tienda = 'San Camilo';
+                            } elseif ($tienda== 2) {
+                                $tienda= 'Maternos';
+                            } elseif ($tienda == 3) {
+                                $tienda = 'Maomas';
+                            } elseif ($tienda == 4) {
+                                $tienda = 'Camana';
+                            }
+                            //$id2 = $dato->id_reg
+                        @endphp
+                        <tr>
+                            <td>{{ $tienda }}</td>
+                            <td>S/. {{ $item->sale}}</td>
+                            <td>S/. {{ $item->spent }}</td>
+                            <td>S/. {{ $item->profit }}</td>
+
+                        </tr>
+                    @endforeach
+                    <tr>
+                        <td colspan="3"><strong>TOTAL:</strong></td>
+                        <td><strong>S/. {{ $totalganancia }}</strong></td>
+                    </tr>
+                @endif
+                </tbody>
+            </table>
     </div>
     <script>
         document.getElementById('date').addEventListener('change', function() {
