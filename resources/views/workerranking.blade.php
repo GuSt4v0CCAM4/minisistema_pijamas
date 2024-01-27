@@ -70,7 +70,7 @@
                 @endif
                 <tr>
                     <td colspan="1"><strong>TOTAL:</strong></td>
-                    <td><strong>S/. {{ $total}}</strong></td>
+                    @if(isset($total))<td><strong>S/. {{ $total}}</strong></td> @endif
                 </tr>
                 </tbody>
             </table>
