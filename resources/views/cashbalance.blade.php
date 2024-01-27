@@ -140,8 +140,8 @@
                 <th scope="col">Tienda</th>
                 <th scope="col">Fecha</th>
                 <th scope="col">Efectivo</th>
-                <th scope="col">Yape</th>
                 <th scope="col">Plin</th>
+                <th scope="col">Yape</th>
                 <th scope="col">Tranferencia</th>
                 <th scope="col">Tarjeta Visa</th>
                 <th scope="col">Total</th>
