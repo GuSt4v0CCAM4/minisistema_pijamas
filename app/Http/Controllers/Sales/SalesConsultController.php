@@ -55,16 +55,14 @@ class SalesConsultController extends Controller
     }
     public function update(Request $request){
         $validatedData = $request->validate([
-            'product' => 'required',
             'price' => 'required',
-            'quantity' => 'required',
             'payment' => 'required',
         ]);
         try{
             $id = $request->input('id');
-            $product = $request->input('product');
+            $product = "-";
             $price = $request->input('price');
-            $quantity = $request->input('quantity');
+            $quantity = 1;
             $payment = $request->input('payment');
             DB::table('sale_record')->where('id_reg', $id)
                 ->update([
@@ -74,9 +72,9 @@ class SalesConsultController extends Controller
                     'payment' => $payment
                 ]);
         }catch (\Exception $e){
-            return redirect()->route('sales.edit')->with('error', 'Ocurrio un error a la hora de editar la venta');
+            return redirect()->route('box.register')->with('error_edit_s', 'Ocurrio un error a la hora de editar la venta');
         }
-        return redirect()->route('sales.edit')->with('success', 'Se edito la venta correctamente!!');
+        return redirect()->route('box.register')->with('success_edit_s', 'Se edito la venta correctamente!!');
     }
     public function delete(Request $request){
         $id = $request->input('id');

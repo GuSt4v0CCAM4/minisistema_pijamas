@@ -16,7 +16,6 @@ class CashBalanceController extends Controller
     public function index(Request $request)
     {
         $selectedDate = $request->input('date', Cookie::get('selectedDate', '0'));
-        $selectedStore = $request->input('store', Cookie::get('selectedStore', '0'));
         // ---- FUNCIONES DATE
         $currentDate = date('Y-m-d');
         $currentDayWeek = date('N', strtotime($currentDate));
@@ -27,28 +26,88 @@ class CashBalanceController extends Controller
         $firstDayMonth = date('Y-m-01');
         $lastDayMont = date('Y-m-t');
         // ---- FUNCIONES DATE
+
         Cookie::queue('selectedDate', $selectedDate, 1440);
-        Cookie::queue('selectedStore', $selectedStore, 1440);
 
 
 
         if ($selectedDate == '0') {
-            return view('cashbalance', ['selectedDate' => $selectedDate, 'selectedStore' => $selectedStore]);
+            return view('cashbalance', ['selectedDate' => $selectedDate]);
         }else {
             if ($selectedDate == '1'){
-                $sale = DB::table('sale_record')->select()->where('id_store',$selectedStore)->whereDate('date', $currentDate)->get();
-                $cash = DB::table('cash_record')->select()->where('id_store',$selectedStore)->whereDate('date', $currentDate)->get();
-                $tablecash = DB::table('cash_close_register')->select()->whereDate('date', $currentDate)->get();
+                $sale = DB::table('sale_record')
+                    ->select('id_store','date','payment', DB::raw('SUM(price) as total'))
+                    ->whereDate('date', $currentDate)
+                    ->groupBy('date', 'payment', 'id_store')
+                    ->get();
+                $cash = DB::table('cash_record')
+                    ->select('id_store','date','payment', DB::raw('SUM(amount) as total'))
+                    ->whereDate('date', $currentDate)
+                    ->groupBy('date', 'payment', 'id_store')
+                    ->get();
+                $tablecash = DB::table('profits')
+                    ->select()
+                    ->whereDate('date', $currentDate)
+                    ->orderBy('date', 'asc')
+                    ->get();
             } elseif ($selectedDate == '2'){
-                $sale = DB::table('sale_record')->select()->where('id_store', $selectedStore)->whereBetween('date', [$firstDayWeek, $lastDayWeek])->get();
-                $cash = DB::table('cash_record')->select()->where('id_store', $selectedStore)->whereBetween('date', [$firstDayWeek, $lastDayWeek])->get();
-                $tablecash = DB::table('cash_close_register')->select()->whereBetween('date', [$firstDayWeek, $lastDayWeek])->get();
+                $sale = DB::table('sale_record')
+                    ->select('id_store','date','payment', DB::raw('SUM(price) as total'))
+                    ->whereBetween('date', [$firstDayWeek, $lastDayWeek])
+                    ->groupBy('date', 'payment', 'id_store')
+                    ->get();
+                $cash = DB::table('cash_record')
+                    ->select('id_store','date','payment', DB::raw('SUM(amount) as total'))
+                    ->whereBetween('date', [$firstDayWeek, $lastDayWeek])
+                    ->groupBy('date', 'payment', 'id_store')
+                    ->get();
+                $tablecash = DB::table('profits')->select()->whereBetween('date', [$firstDayWeek, $lastDayWeek])
+                    ->orderBy('date', 'asc')
+                    ->get();
             } elseif ($selectedDate == '3'){
-                $sale = DB::table('sale_record')->select()->where('id_store', $selectedStore)->whereBetween('date', [$firstDayMonth, $lastDayMont])->get();
-                $cash = DB::table('cash_record')->select()->where('id_store', $selectedStore)->whereBetween('date', [$firstDayMonth, $lastDayMont])->get();
-                $tablecash = DB::table('cash_close_register')->select()->whereBetween('date', [$firstDayMonth, $lastDayMont])->get();
+                $sale = DB::table('sale_record')
+                    ->select('id_store','date','payment', DB::raw('SUM(price) as total'))
+                    ->whereBetween('date', [$firstDayMonth, $lastDayMont])
+                    ->groupBy('date', 'payment', 'id_store')
+                    ->get();
+                $cash = DB::table('cash_record')
+                    ->select('id_store','date','payment', DB::raw('SUM(amount) as total'))
+                    ->whereBetween('date', [$firstDayMonth, $lastDayMont])
+                    ->groupBy('date', 'payment', 'id_store')
+                    ->get();
+                $tablecash = DB::table('profits')->select()->whereBetween('date', [$firstDayMonth, $lastDayMont])
+                    ->orderBy('date', 'asc')
+                    ->get();
+            } elseif ($selectedDate == '4'){
+                if (@isset($request->startDate, $request->endDate)){
+                    $sale = DB::table('sale_record')
+                        ->select('id_store','date','payment', DB::raw('SUM(price) as total'))
+                        ->whereBetween('date', [$request->startDate, $request->endDate])
+                        ->groupBy('date', 'payment', 'id_store')
+                        ->get();
+                    $cash = DB::table('cash_record')
+                        ->select('id_store','date','payment', DB::raw('SUM(amount) as total'))
+                        ->whereBetween('date', [$request->startDate, $request->endDate])
+                        ->groupBy('date', 'payment', 'id_store')
+                        ->get();
+                    $tablecash = DB::table('profits')
+                        ->select()
+                        ->whereBetween('date', [$request->startDate, $request->endDate])
+                        ->orderBy('date', 'asc')->get();
+                }else{
+                    $sale = DB::table('sale_record')
+                        ->select('id_store','date','payment', DB::raw('SUM(price) as total'))
+                        ->groupBy('date', 'payment', 'id_store')
+                        ->get();
+                    $cash = DB::table('cash_record')
+                        ->select('id_store','date','payment', DB::raw('SUM(amount) as total'))
+                        ->groupBy('date', 'payment', 'id_store')
+                        ->get();
+                    $tablecash = DB::table('profits')->select()->orderBy('date', 'asc')->get();
+                }
+
             }
-            return view('cashbalance', ['selectedDate' => $selectedDate, 'sale'=>$sale, 'cash'=>$cash, 'selectedStore' => $selectedStore, 'tablecash' => $tablecash]);
+            return view('cashbalance', ['selectedDate' => $selectedDate, 'sale'=>$sale, 'cash'=>$cash, 'tablecash' => $tablecash]);
         }
 
     }

@@ -29,13 +29,19 @@
             <h2>Registro de Ventas</h2>
             <form class="row g-3 needs-validation" method="POST" action="{{route('box.register.sale')}}">
                 @csrf
-                <div class="col-md-8">
-                    <label for="product" class="form-label">Producto (ID):</label>
-                    <input type="text" class="form-control" id="product" value="" name="product" required>
-                    <div class="valid-feedback">
-                        Elija un producto
+                <div class="col-md-5">
+                    <label for="validationCustom04" class="form-label">Medio de Pago:</label>
+                    <select class="form-select" id="validationCustom04" name="payment" required>
+                        <option selected disabled value="">Elije una opción</option>
+                        <option value="1"> Efectivo</option>
+                        <option value="2"> Transferencia</option>
+                        <option value="3"> Yape</option>
+                        <option value="4"> Plin</option>
+                        <option value="7"> Tarjeta Visa</option>
+                    </select>
+                    <div class="invalid-feedback">
+                        Elije un medio de pago
                     </div>
-                    <div id="productList" class="list-group" style="position: absolute; z-index: 1000;"></div>
                 </div>
                 <div class="col-md-4">
                     <label for="sale_price" class="form-label">Precio</label>
@@ -48,28 +54,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-3">
-                    <label for="validationCustom05" class="form-label">Cantidad:</label>
-                    <input type="number" min="1"  pattern="^[0-9]" class="form-control" id="validationCustom05"
-                           name="quantity" value="1" required>
-                    <div class="invalid-feedback">
-                        Elija una cantidad
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <label for="validationCustom04" class="form-label">Medio de Pago:</label>
-                    <select class="form-select" id="validationCustom04" name="payment" required>
-                        <option selected disabled value="">Elije una opción</option>
-                        <option value="1"> Efectivo</option>
-                        <option value="2"> Transferencia</option>
-                        <option value="3"> Yape</option>
-                        <option value="4"> Plin</option>
-                        <option value="7"> Otro</option>
-                    </select>
-                    <div class="invalid-feedback">
-                        Elije un medio de pago
-                    </div>
-                </div>
+
 
                 <div class="col-12">
                     <button class="btn btn-primary" type="submit">Registrar Venta</button>
@@ -78,11 +63,10 @@
             <table class="table">
                 <thead>
                 <tr>
-                    <th scope="col">Producto:</th>
-                    <th scope="col">Cantidad:</th>
+                    <th scope="col">Medio:</th>
                     <th scope="col">Fecha: </th>
                     <th scope="col">Vendedor</th>
-                    <th scope="col">Precio:</th>
+                    <th scope="col">Valor:</th>
                     <th scope="col">Editar:</th>
                     <th scope="col">Eliminar:</th>
                 </tr>
@@ -100,10 +84,23 @@
                             $preciodeventa = $dato->price * $dato->quantity;
                             $totalPrice += $preciodeventa;
                             $id = $dato->id_reg;
+                            $medio = "";
+                            if ($dato->payment == 1) {
+                                $medio = 'Efectivo';
+                            } elseif ($dato->payment == 2) {
+                                $medio = 'Transferencia';
+                            } elseif ($dato->payment == 3) {
+                                $medio = 'Yape';
+                            } elseif ($dato->payment == 4) {
+                                $medio = 'Plin';
+                            } elseif ($dato->payment == 7) {
+                                $medio = 'Tarjeta Visa';
+                            } else {
+                                $medio = 'Otro';
+                            }
                         @endphp
                         <tr>
-                            <td>{{ $dato->product }}</td>
-                            <td>{{ $dato->quantity }}</td>
+                            <td>{{ $medio }}</td>
                             <td>{{ $fecha }}</td>
                             <td>{{ $dato->name }}</td>
                             <td>S/. {{ $preciodeventa }}</td>
@@ -118,12 +115,32 @@
                         </tr>
                     @endforeach
                     <tr>
-                        <td colspan="4"><strong>TOTAL:</strong></td>
+                        <td colspan="3"><strong>TOTAL:</strong></td>
                         <td><strong>S/. {{ $totalPrice }}</strong></td>
                     </tr>
                 @endif
                 </tbody>
             </table>
+            @if(session('success_edit_s'))
+                <div class="col-md-4 alert alert-success">
+                    {{ session('success_edit_s') }}
+                </div>
+            @endif
+            @if(session('error_edit_s'))
+                <div class="col-md-4 alert alert-success">
+                    {{ session('error_edit_s') }}
+                </div>
+            @endif
+            @if(session('success_s'))
+                <div class="col-md-4 alert alert-success">
+                    {{ session('success_s') }}
+                </div>
+            @endif
+            @if(session('error_s'))
+                <div class="col-md-4 alert alert-success">
+                    {{ session('error_s') }}
+                </div>
+            @endif
             @if(isset($datos))
                 @foreach($datos as $item)
                     @php
@@ -156,13 +173,27 @@
             <h2>Registro de Gastos</h2>
             <form class="row g-3 needs-validation" method="POST" action="{{route('box.register.cash')}}">
                 @csrf
-                <div class="col md-4">
-                    <label for="cash" class="form-label">Categoria:</label>
+                <div class="col-md-5">
+                    <label for="validationCustom04" class="form-label">Medio:</label>
+                    <select class="form-select" id="validationCustom04" name="payment" required>
+                        <option selected disabled value="">Elije una opción</option>
+                        <option value="1"> Efectivo</option>
+                        <option value="2"> Transferencia</option>
+                        <option value="3"> Yape</option>
+                        <option value="4"> Plin</option>
+                        <option value="7"> Tarjeta Visa</option>
+                    </select>
+                    <div class="invalid-feedback">
+                        Elije un medio de pago
+                    </div>
+                </div>
+                <div class="col md-5">
+                    <label for="cash" class="form-label">Tipo:</label>
                     <select class="form-select" id="cash" name="cash" required>
                         <option selected disabled value="0">--Seleccione una opción--</option>
-                        <option value="1" >Gastos Operativos</option>
-                        <option value="2" >Gastos de Personal</option>
-                        <option value="3" >Otro</option>
+                        <option value="Gastos Operativos" >Gastos Operativos</option>
+                        <option value="Gastos de Personal" >Gastos de Personal</option>
+                        <option value="Otro" >Otro</option>
                     </select>
                     <div class="invalid-feedback">
                         Elije un medio de pago
@@ -179,13 +210,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-8">
-                    <label for="validationCustom01" class="form-label">Descripción (opcional):</label>
-                    <input type="text" class="form-control" id="validationCustom01" value="" name="description">
-                    <div class="valid-feedback">
-                        Elija un producto
-                    </div>
-                </div>
+
                 <div class="col-12">
                     <button class="btn btn-primary" type="submit">Registrar Gasto</button>
                 </div>
@@ -193,7 +218,7 @@
             <table class="table">
                 <thead>
                 <tr>
-                    <th scope="col">Categoria:</th>
+                    <th scope="col">Medio:</th>
                     <th scope="col">Descripcion:</th>
                     <th scope="col">Fecha: </th>
                     <th scope="col">Monto:</th>
@@ -214,10 +239,16 @@
                             $totalPrice2 += $dato->amount;
                             $payment2 = $dato->payment;
                             if ($payment2 == 1) {
-                                $payment2 = 'Gastos Operativos';
+                                $payment2 = 'Efectivo';
                             } elseif ($payment2 == 2) {
-                                $payment2 = 'Gastos de Personal';
+                                $payment2 = 'Transferencia';
                             } elseif ($payment2 == 3) {
+                                $payment2 = 'Yape';
+                            } elseif ($payment2 == 4) {
+                                $payment2 = 'Plin';
+                            } elseif ($payment2 == 7) {
+                                $payment2 = 'Tarjeta Visa';
+                            } else {
                                 $payment2 = 'Otro';
                             }
                             $id2 = $dato->id_reg
@@ -271,7 +302,7 @@
                 @endforeach
             @endif
         </div>
-        <div><h3>Ganacias: S/.{{$ganancias}}</h3><button class="btn btn-primary" type="button" onclick="window.location.href='{{route('cash.close', ['saleTotal' => $totalPrice, 'cashTotal' => $totalPrice2, 'profit' => $ganancias])}}'">REGISTRAR CUADRE</button></div>
+        <div><h3>Ganacias: S/.{{$ganancias}}</h3><button class="btn btn-primary" type="button" onclick="window.location.href='{{route('cash.close')}}'">REGISTRAR CUADRE</button></div><h3>NO TE OLVIDES DE REGISTRAR CAJA</h3>
         @if(session('success'))
             <div class="col-md-4 alert alert-success">
                 {{ session('success') }}
@@ -281,6 +312,11 @@
         @if(session('error'))
             <div class="col-md-4 alert alert-danger">
                 {{ session('error') }}
+            </div>
+        @endif
+        @if(session('danger'))
+            <div class="col-md-4 alert alert-danger">
+                {{ session('danger') }}
             </div>
         @endif
     </div>

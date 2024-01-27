@@ -10,15 +10,6 @@
         <form class="row g-3 needs-validation" method="POST" action="{{route('sales.update', ['id' => $id])}}">
 
             @csrf
-            <div class="col-md-8">
-
-                <label for="product" class="form-label">Producto (ID):</label>
-                <input type="text" class="form-control" id="product" value="{{$dato->product}}" name="product" required>
-                <div class="valid-feedback">
-                    Elija un producto
-                </div>
-                <div id="productList" class="list-group" style="position: absolute; z-index: 1000;"></div>
-            </div>
             <div class="col-md-4">
                 <label for="sale_price" class="form-label">Precio</label>
                 <div class="input-group has-validation">
@@ -31,14 +22,6 @@
                 </div>
             </div>
             <div class="col-md-3">
-                <label for="validationCustom05" class="form-label">Cantidad:</label>
-                <input type="number" min="1"  pattern="^[0-9]" class="form-control" id="validationCustom05"
-                       name="quantity" value="{{$dato->quantity}}" required>
-                <div class="invalid-feedback">
-                    Elija una cantidad
-                </div>
-            </div>
-            <div class="col-md-3">
                 <label for="validationCustom04" class="form-label">Medio de Pago:</label>
                 <select class="form-select" id="validationCustom04" name="payment" required>
                     <option  disabled value="">Elije una opción</option>
@@ -46,7 +29,7 @@
                     <option value="2" {{$dato->payment == 2 ? 'selected' : ''}}> Transferencia</option>
                     <option value="3" {{$dato->payment == 3 ? 'selected' : ''}}> Yape</option>
                     <option value="4" {{$dato->payment == 4 ? 'selected' : ''}}> Plin</option>
-                    <option value="7" {{$dato->payment == 7 ? 'selected' : ''}}> Otro</option>
+                    <option value="7" {{$dato->payment == 7 ? 'selected' : ''}}> Tarjeta Visa</option>
                 </select>
                 <div class="invalid-feedback">
                     Elije un medio de pago

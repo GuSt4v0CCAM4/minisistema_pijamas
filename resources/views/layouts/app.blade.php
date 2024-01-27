@@ -31,15 +31,13 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li class="nav-item dropdown">
+                        <!--<li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 Ventas
                             </a>
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="{{ url('/registroventa') }}">Registrar Venta</a></li>
                                 <li><a class="dropdown-item" href="{{ url('/consultaventa') }}">Consultar Ventas</a></li>
-                                <!--<li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item" href="#">Something else here</a></li> -->
                             </ul>
                         </li>
                         <li class="nav-item dropdown">
@@ -49,6 +47,20 @@
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="{{ url('/cashrecord') }}">Registrar Gasto</a></li>
                                 <li><a class="dropdown-item" href="{{ url('/cashconsult') }}">Consultar Gastos</a></li>
+
+                            </ul>
+                        </li>-->
+
+
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Caja
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="{{ url('/boxregister') }}">Registrar Caja</a></li>
+                                <li><a class="dropdown-item" href="{{ url('/cuadre') }}">Consultar Caja</a></li>
+                                <li><a class="dropdown-item" href="{{ url('/rankingtrabajadores') }}">Ranking de Trabajadores</a></li>
+
                                 <!--<li><hr class="dropdown-divider"></li>
                                 <li><a class="dropdown-item" href="#">Something else here</a></li> -->
                             </ul>
@@ -60,18 +72,6 @@
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="{{ url('/registroinventario') }}">Ingresar Productos</a></li>
                                 <li><a class="dropdown-item" href="{{ url('/consultainventario') }}">Consultar Inventario</a></li>
-                                <!--<li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item" href="#">Something else here</a></li> -->
-                            </ul>
-                        </li>
-
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Caja
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="{{ url('/cuadre') }}">Cuadre</a></li>
-                                <li><a class="dropdown-item" href="{{ url('/boxregister') }}">Registrar Cierre Anteriores</a></li>
                                 <!--<li><hr class="dropdown-divider"></li>
                                 <li><a class="dropdown-item" href="#">Something else here</a></li> -->
                             </ul>

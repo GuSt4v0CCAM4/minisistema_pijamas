@@ -48,3 +48,5 @@ Route::post('/boxsale', [App\Http\Controllers\Box\BoxRegisterController::class, 
 Route::post('/boxcash', [App\Http\Controllers\Box\BoxRegisterController::class, 'input_cash'])->name('box.register.cash');
 Route::get('/cashclose', [App\Http\Controllers\Box\BoxRegisterController::class, 'registerclose'])->name('cash.close');
 Route::get('/closeboxregister', [App\Http\Controllers\CashBalanceController::class, 'register'])->name('closeboxregister');
+
+Route::get('/rankingtrabajadores',[App\Http\Controllers\RankingWorkersController::class, 'index'])->name('workerranking');
